@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2457d6">
+<title>Góc học tập – Kết nối tri thức</title>
+<style>
+:root{color-scheme:light;--blue:#2457d6;--navy:#172554;--bg:#f3f6fc;--card:#fff;--text:#182230;--muted:#64748b;--line:#dbe3f0;--green:#16834a;--red:#c62828}
+body.dark{color-scheme:dark;--bg:#101827;--card:#182235;--text:#e5edf8;--muted:#a8b5ca;--line:#344258;--green:#35c878;--red:#ff7777}
+body.dark select,body.dark input,body.dark textarea{background:#111b2b;color:var(--text);border-color:var(--line)}body.dark .option{background:#172235;color:var(--text)}body.dark .option.selected{background:#20365b}body.dark .option.correct{background:#173d2b}body.dark .option.wrong{background:#482326}body.dark button.secondary{background:#2a3851;color:#e5edf8}body.dark .status{background:#20304b;color:#d7e5ff}body.dark .pill{background:#26344d;color:#dbe7ff}body.dark .feedback.good{background:#173d2b;color:#b8f5d0}body.dark .feedback.bad{background:#482326;color:#ffd0d0}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55}
+header{background:linear-gradient(135deg,#2457d6,#6b4ce6);color:white;padding:22px 16px;text-align:center;position:relative}#themeBtn{margin-top:12px;background:#ffffff22;border:1px solid #ffffff70;color:white} .game-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.game-tile{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--card)}.game-tile h3{margin:0 0 6px}.game-question{font-size:18px;font-weight:750;white-space:pre-wrap;margin:12px 0}.game-answer{display:block;width:100%;text-align:left;margin:7px 0;background:var(--card);color:var(--text);border:1px solid var(--line)}.game-answer:hover{border-color:var(--blue)}.game-answer:disabled{opacity:.85}.game-board{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:12px}.match-card{min-height:88px;background:#e8eefc;color:#172554;border:2px solid transparent;white-space:pre-wrap}.match-card.flipped{background:var(--card);color:var(--text);border-color:var(--blue)}.match-card.matched{background:#d9fbe6;color:#14532d;border-color:#22a05a}body.dark .match-card{background:#2a3851;color:#e5edf8}body.dark .match-card.matched{background:#17432e;color:#b8f5d0}.game-status{padding:10px;background:var(--bg);border-radius:10px;margin-top:10px}.million-ladder{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.million-step{padding:5px 8px;border-radius:8px;background:var(--bg);border:1px solid var(--line);font-size:13px}.million-step.active{background:var(--blue);color:white}.mini-label{font-size:13px;color:var(--muted)}header h1{margin:0 0 6px;font-size:clamp(23px,5vw,34px)}header p{margin:0;opacity:.92}
+main{max-width:980px;margin:20px auto;padding:0 12px 40px}.panel,.quiz-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:16px;box-shadow:0 5px 18px #1e3a8a0b}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px}label{display:block;font-weight:650;font-size:14px;margin-bottom:5px}select,input,textarea{width:100%;padding:11px 12px;border:1px solid #cbd5e1;border-radius:10px;font:inherit;background:white;color:inherit}button{border:0;border-radius:10px;padding:11px 15px;background:var(--blue);color:white;font:inherit;font-weight:700;cursor:pointer}button.secondary{background:#e8eefc;color:#1e40af}button:disabled{opacity:.45;cursor:not-allowed}.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}.status{padding:10px 12px;border-radius:10px;background:#eef4ff;color:#1e40af;margin:12px 0}.muted{color:var(--muted)}.question-title{font-weight:750;font-size:18px;white-space:pre-wrap}.meta{font-size:13px;color:var(--muted);margin-bottom:10px}.options{display:grid;gap:9px;margin-top:14px}.option{display:flex;gap:10px;align-items:flex-start;text-align:left;border:1px solid var(--line);border-radius:11px;padding:12px;background:#fff;color:var(--text);font-weight:500}.option.selected{border-color:var(--blue);background:#eff4ff}.option.correct{border-color:var(--green);background:#edfff4}.option.wrong{border-color:var(--red);background:#fff0f0}.option input{width:auto;margin-top:5px}.feedback{padding:12px;border-radius:10px;margin-top:13px;white-space:pre-wrap}.feedback.good{background:#edfff4;color:#126438}.feedback.bad{background:#fff0f0;color:#9f2020}.essay-answer{min-height:130px;resize:vertical}.stats{display:flex;gap:10px;flex-wrap:wrap}.pill{border-radius:999px;background:#eef2ff;color:#3730a3;padding:5px 10px;font-size:13px;font-weight:700}.hidden{display:none!important}footer{text-align:center;color:var(--muted);font-size:13px;padding:10px}
+</style>
+</head>
+<body>
+<header><h1>📚 Góc học tập</h1><p>Ôn tập lớp 10–12 · 8 môn học · Bộ sách Kết nối tri thức với cuộc sống</p><button id="themeBtn" type="button">🌙 Chuyển sang nền tối</button></header>
+<main>
+<section class="panel">
+  <div class="controls">
+    <div><label for="grade">Lớp</label><select id="grade"><option value="all">Tổng hợp lớp 10–12</option><option value="10">Lớp 10</option><option value="11">Lớp 11</option><option value="12">Lớp 12</option></select></div>
+    <div><label for="subject">Môn học</label><select id="subject"><option>Toán</option><option>Vật lí</option><option>Hóa học</option><option>Sinh học</option><option>Ngữ văn</option><option>Lịch sử</option><option>Tin học</option><option>Anh văn</option></select></div>
+    <div><label for="mode">Dạng bài</label><select id="mode"><option value="mcq">Trắc nghiệm</option><option value="essay">Tự luận</option></select></div>
+    <div><label for="level">Mức độ</label><select id="level"><option value="">Tất cả</option><option value="Nhận biết">Nhận biết</option><option value="Thông hiểu">Thông hiểu</option><option value="Vận dụng">Vận dụng</option><option value="Vận dụng cao">Vận dụng cao</option></select></div>
+    <div><label for="topic">Chủ đề</label><select id="topic"><option value="">Tất cả chủ đề</option></select></div>
+  </div>
+  <div class="actions"><button id="startBtn">Tải câu hỏi</button><button id="shuffleBtn" class="secondary">Trộn câu hỏi</button></div>
+  <div id="loadStatus" class="status" role="status">Đang chuẩn bị đọc bank.json…</div>
+</section>
+<section class="quiz-card">
+  <div class="stats"><span class="pill" id="counter">Câu 0/0</span><span class="pill" id="score">Điểm: 0</span></div>
+  <div class="meta" id="questionMeta"></div>
+  <div class="question-title" id="questionText">Chọn lớp, môn và dạng bài rồi nhấn “Tải câu hỏi”.</div>
+  <div id="mcqOptions" class="options"></div>
+  <textarea id="essayInput" class="essay-answer hidden" placeholder="Nhập câu trả lời của bạn…"></textarea>
+  <div class="actions" id="questionActions">
+    <button id="checkBtn">Kiểm tra đáp án</button><button id="answerBtn" class="secondary">Xem đáp án tham khảo</button>
+    <button id="prevBtn" class="secondary">← Câu trước</button><button id="nextBtn">Câu tiếp →</button>
+  </div>
+  <div id="feedback" aria-live="polite"></div>
+</section>
+
+<section class="panel" id="gamesPanel">
+  <h2>🎮 Khu trò chơi kiến thức</h2>
+  <p class="muted">Chọn riêng lớp 10, 11, 12 hoặc tổng hợp cả ba lớp. Các trò chơi dùng câu hỏi trắc nghiệm trong bank.json.</p>
+  <div class="controls">
+    <div><label for="gameGrade">Phạm vi lớp</label><select id="gameGrade"><option value="all">Tổng hợp lớp 10–12</option><option value="10">Lớp 10</option><option value="11">Lớp 11</option><option value="12">Lớp 12</option></select></div>
+    <div><label for="gameSubject">Môn học</label><select id="gameSubject"><option value="all">Tất cả 8 môn</option><option>Toán</option><option>Vật lí</option><option>Hóa học</option><option>Sinh học</option><option>Ngữ văn</option><option>Lịch sử</option><option>Tin học</option><option>Anh văn</option></select></div>
+  </div>
+  <div class="game-grid" style="margin-top:14px">
+    <div class="game-tile"><h3>⚡ Nhanh tay lẹ mắt</h3><p class="muted">Trả lời nhanh trước khi hết giờ để ghi điểm.</p><button id="startFast">Chơi ngay</button></div>
+    <div class="game-tile"><h3>🧩 Ghép hình kiến thức</h3><p class="muted">Lật các thẻ và ghép câu hỏi với đáp án đúng.</p><button id="startMatch">Chơi ngay</button></div>
+    <div class="game-tile"><h3>💰 Ai là triệu phú</h3><p class="muted">Vượt qua 10 câu hỏi, có quyền trợ giúp 50:50.</p><button id="startMillion">Chơi ngay</button></div>
+  </div>
+  <div id="gameArea" class="game-tile hidden" style="margin-top:14px" aria-live="polite"></div>
+</section>
+<footer>Ngân hàng câu hỏi là tài liệu tham khảo; hãy đối chiếu sách giáo khoa và tài liệu của giáo viên.</footer>
+<section class="panel" aria-label="Chọn ngân hàng câu hỏi dự phòng"><label for="bankFile">Nếu không tự tải được, chọn file bank.json tại đây</label><input id="bankFile" type="file" accept=".json,application/json"></section>
+</main>
+<script>
+(() => {
+"use strict";
+let allMCQ = [], allEssays = [], currentList = [], index = 0, selected = {}, checked = {}, score = 0;
+const $ = id => document.getElementById(id);
+const normalize = value => String(value ?? "").trim().toLocaleLowerCase("vi");
+const gradeValue = item => Number(item.g ?? item.grade ?? item.lop);
+const subjectValue = item => String(item.s ?? item.subject ?? item.mon ?? "").trim();
+const typeValue = item => normalize(item.type ?? item.kind ?? item.dang);
+const levelValue = item => String(item.level ?? item.difficulty ?? item.mucDo ?? "").trim();
+const chapterValue = item => String(item.chapter ?? item.topic ?? item.chuDe ?? "Chủ đề chung");
+const questionValue = item => String(item.q ?? item.question ?? item.cauHoi ?? "");
+function getAnswerIndex(item) {
+  if (Number.isInteger(item.c)) return item.c;
+  if (Number.isInteger(item.correctIndex)) return item.correctIndex;
+  if (Number.isInteger(item.answerIndex)) return item.answerIndex;
+  const ans = item.correct ?? item.answer ?? item.dapAn;
+  if (typeof ans === "number") return ans;
+  if (typeof ans === "string") {
+    const letter = ans.trim().toUpperCase();
+    if (/^[A-D]$/.test(letter)) return letter.charCodeAt(0) - 65;
+    const choices = item.a ?? item.options ?? item.choices;
+    if (Array.isArray(choices)) return choices.findIndex(x => String(x) === ans);
+  }
+  return -1;
+}
+function optionsOf(item) {
+  const opts = item.options ?? item.choices ?? item.a;
+  return Array.isArray(opts) ? opts : [];
+}
+function splitData(data) {
+  // Hỗ trợ cả dạng mảng câu hỏi và đúng cấu trúc bank.json hiện tại: { bank: [], essays: [] }.
+  let mcqList = [], essayList = [];
+  if (Array.isArray(data)) {
+    mcqList = data;
+  } else if (data && typeof data === "object") {
+    mcqList = data.bank ?? data.questions ?? data.mcq ?? data.tracNghiem ?? [];
+    essayList = data.essays ?? data.essay ?? data.tuLuan ?? [];
+    if (!Array.isArray(mcqList) || !Array.isArray(essayList)) {
+      throw new Error("bank.json phải có dạng {\"bank\": [...], \"essays\": [...]}.");
+    }
+  } else {
+    throw new Error("Cấu trúc JSON không đúng. Cần mảng câu hỏi hoặc đối tượng có bank và essays.");
+  }
+  // Tự phân loại nếu câu hỏi được gộp chung trong một mảng.
+  const mcq = mcqList.filter(x => optionsOf(x).length > 0 || ["mcq","multiple-choice","trac nghiem","trắc nghiệm"].includes(typeValue(x)));
+  const essays = [...essayList, ...mcqList.filter(x => optionsOf(x).length === 0 && ["essay","tu luan","tự luận"].includes(typeValue(x)))];
+  return { mcq, essays };
+}
+function useBankData(data, sourceName) {
+  const parsed = splitData(data);
+  allMCQ = parsed.mcq;
+  allEssays = parsed.essays;
+  if (!allMCQ.length && !allEssays.length) throw new Error("Đã đọc JSON nhưng không tìm thấy câu hỏi.");
+  $("loadStatus").textContent = `Đã tải ${sourceName}: ${allMCQ.length} câu trắc nghiệm, ${allEssays.length} câu tự luận.`;
+  updateTopics();
+  loadQuestions();
+}
+async function loadBank() {
+  $("loadStatus").textContent = "Đang tải bank.json…";
+  try {
+    const response = await fetch("./bank.json", {cache:"no-store"});
+    if (!response.ok) throw new Error("Không tìm thấy bank.json (HTTP " + response.status + ").");
+    useBankData(await response.json(), "bank.json");
+  } catch (err) {
+    $("loadStatus").textContent = "Không tự tải được bank.json: " + err.message + " Bạn có thể chọn file bank.json bằng ô chọn file phía trên, hoặc mở trang bằng Preview/Local Server trong Acode.";
+  }
+}
+function updateTopics() {
+  const old = $("topic").value;
+  const grade = $("grade").value, subject = $("subject").value;
+  const source = $("mode").value === "essay" ? allEssays : allMCQ;
+  const topics = [...new Set(source.filter(x => (grade === "all" || gradeValue(x) === Number(grade)) && normalize(subjectValue(x)) === normalize(subject)).map(chapterValue))].sort((a,b)=>a.localeCompare(b,"vi"));
+  $("topic").innerHTML = '<option value="">Tất cả chủ đề</option>';
+  topics.forEach(t => { const o = document.createElement("option"); o.value = t; o.textContent = t; $("topic").appendChild(o); });
+  if (topics.includes(old)) $("topic").value = old;
+}
+function loadQuestions() {
+  updateTopics();
+  const source = $("mode").value === "essay" ? allEssays : allMCQ;
+  const grade = $("grade").value, subject = normalize($("subject").value), level = normalize($("level").value), topic = $("topic").value;
+  currentList = source.filter(item => (grade === "all" || gradeValue(item) === Number(grade)) && normalize(subjectValue(item)) === subject &&
+    (!level || normalize(levelValue(item)) === level) && (!topic || chapterValue(item) === topic));
+  index = 0; selected = {}; checked = {}; score = 0;
+  render();
+  if (!currentList.length) $("loadStatus").textContent = "Không có câu hỏi phù hợp với lựa chọn này. Hãy đổi lớp, môn, mức độ hoặc chủ đề.";
+  else $("loadStatus").textContent = `Tìm thấy ${currentList.length} câu hỏi phù hợp.`;
+}
+function render() {
+  $("counter").textContent = currentList.length ? `Câu ${index+1}/${currentList.length}` : "Câu 0/0";
+  $("score").textContent = "Điểm: " + score;
+  $("mcqOptions").innerHTML = "";
+  $("feedback").innerHTML = "";
+  $("essayInput").classList.toggle("hidden", $("mode").value !== "essay");
+  $("checkBtn").classList.toggle("hidden", $("mode").value === "essay");
+  $("answerBtn").textContent = $("mode").value === "essay" ? "Xem đáp án tham khảo" : "Xem lời giải";
+  $("prevBtn").disabled = !currentList.length || index <= 0;
+  $("nextBtn").disabled = !currentList.length || index >= currentList.length - 1;
+  if (!currentList.length) {
+    $("questionMeta").textContent = "";
+    $("questionText").textContent = "Chưa có câu hỏi cho lựa chọn này.";
+    $("essayInput").value = "";
+    return;
+  }
+  const item = currentList[index];
+  $("questionMeta").textContent = `Lớp ${gradeValue(item)} · ${subjectValue(item)} · ${chapterValue(item)} · ${levelValue(item) || "Chưa phân mức độ"}`;
+  $("questionText").textContent = questionValue(item);
+  if ($("mode").value === "essay") {
+    $("essayInput").value = selected[index] ?? "";
+    $("essayInput").oninput = () => selected[index] = $("essayInput").value;
+  } else {
+    const opts = optionsOf(item), chosen = selected[index];
+    opts.forEach((opt, i) => {
+      const label = document.createElement("label");
+      label.className = "option" + (chosen === i ? " selected" : "");
+      if (checked[index]) {
+        const correct = getAnswerIndex(item);
+        if (i === correct) label.classList.add("correct");
+        else if (i === chosen) label.classList.add("wrong");
+      }
+      const radio = document.createElement("input"); radio.type = "radio"; radio.name = "answer"; radio.checked = chosen === i; radio.disabled = !!checked[index];
+      radio.addEventListener("change", () => { selected[index] = i; render(); });
+      const span = document.createElement("span"); span.textContent = String.fromCharCode(65+i) + ". " + String(opt);
+      label.append(radio, span); $("mcqOptions").appendChild(label);
+    });
+  }
+  if (checked[index] && $("mode").value === "mcq") showMCQFeedback(item);
+}
+function showMCQFeedback(item) {
+  const correct = getAnswerIndex(item), chosen = selected[index];
+  const isCorrect = chosen === correct;
+  const box = document.createElement("div"); box.className = "feedback " + (isCorrect ? "good" : "bad");
+  const answer = optionsOf(item)[correct];
+  box.textContent = (isCorrect ? "Chính xác! " : "Chưa chính xác. ") +
+    (correct >= 0 ? "Đáp án: " + String.fromCharCode(65+correct) + ". " + String(answer) + "\n" : "Chưa xác định được đáp án đúng trong dữ liệu.\n") +
+    (item.e ?? item.explanation ?? item.explain ?? item.giaiThich ? "Giải thích: " + (item.e ?? item.explanation ?? item.explain ?? item.giaiThich) : "");
+  $("feedback").appendChild(box);
+}
+function checkAnswer() {
+  if (!currentList.length) return;
+  const item = currentList[index];
+  if ($("mode").value === "essay") {
+    selected[index] = $("essayInput").value;
+    const box = document.createElement("div"); box.className = "feedback";
+    box.textContent = "Đã lưu câu trả lời của bạn. Hãy chọn “Xem đáp án tham khảo” để đối chiếu.";
+    $("feedback").replaceChildren(box); return;
+  }
+  if (selected[index] === undefined) { $("feedback").textContent = "Hãy chọn một đáp án trước."; return; }
+  if (!checked[index]) {
+    checked[index] = true;
+    if (selected[index] === getAnswerIndex(item)) score++;
+  }
+  render();
+}
+function showAnswer() {
+  if (!currentList.length) return;
+  const item = currentList[index];
+  const box = document.createElement("div"); box.className = "feedback good";
+  if ($("mode").value === "essay") {
+    const answer = item.a ?? item.answer ?? item.modelAnswer ?? item.dapAn ?? "Chưa có đáp án tham khảo trong dữ liệu.";
+    const rubric = item.rubric ?? item.criteria;
+    box.textContent = "Đáp án tham khảo: " + answer + (rubric ? "\nGợi ý chấm điểm: " + (Array.isArray(rubric) ? rubric.join("; ") : rubric) : "");
+  } else {
+    const correct = getAnswerIndex(item), opts = optionsOf(item);
+    box.textContent = (correct >= 0 ? "Đáp án đúng: " + String.fromCharCode(65+correct) + ". " + opts[correct] + "\n" : "Không xác định được đáp án đúng.\n") +
+      "Giải thích: " + (item.e ?? item.explanation ?? item.explain ?? item.giaiThich ?? "Chưa có giải thích trong dữ liệu.");
+  }
+  $("feedback").replaceChildren(box);
+}
+$("bankFile").addEventListener("change", async event => {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+  try {
+    const data = JSON.parse(await file.text());
+    useBankData(data, file.name);
+  } catch (err) {
+    $("loadStatus").textContent = "Không đọc được file JSON: " + err.message;
+  }
+});
+$("startBtn").addEventListener("click", loadQuestions);
+$("shuffleBtn").addEventListener("click", () => { for(let i=currentList.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[currentList[i],currentList[j]]=[currentList[j],currentList[i]];} index=0;selected={};checked={};score=0;render(); });
+$("checkBtn").addEventListener("click", checkAnswer);
+$("answerBtn").addEventListener("click", showAnswer);
+$("prevBtn").addEventListener("click", () => { if(index>0){index--;render();} });
+$("nextBtn").addEventListener("click", () => { if(index<currentList.length-1){index++;render();} });
+["grade","subject","mode"].forEach(id => $(id).addEventListener("change", () => {updateTopics();loadQuestions();}));
+["level","topic"].forEach(id => $(id).addEventListener("change", loadQuestions));
+
+// Chế độ nền sáng/tối
+const themeBtn = $("themeBtn");
+function setTheme(dark) {
+  document.body.classList.toggle("dark", dark);
+  themeBtn.textContent = dark ? "☀️ Chuyển sang nền sáng" : "🌙 Chuyển sang nền tối";
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.content = dark ? "#101827" : "#2457d6";
+  try { localStorage.setItem("gocHocTapTheme", dark ? "dark" : "light"); } catch (_) {}
+}
+let savedTheme = "light";
+try { savedTheme = localStorage.getItem("gocHocTapTheme") || "light"; } catch (_) {}
+setTheme(savedTheme === "dark");
+themeBtn.addEventListener("click", () => setTheme(!document.body.classList.contains("dark")));
+
+// Ba trò chơi dùng chung ngân hàng câu hỏi trắc nghiệm.
+const gameArea = $("gameArea");
+let gameTimer = null, fastRound = null, matchState = null, millionState = null;
+const shuffleArray = arr => { const out = arr.slice(); for(let i=out.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[out[i],out[j]]=[out[j],out[i]];} return out; };
+function gamePool() {
+  const grade = $("gameGrade").value, subject = $("gameSubject").value;
+  return allMCQ.filter(q => (grade === "all" || gradeValue(q) === Number(grade)) && (subject === "all" || normalize(subjectValue(q)) === normalize(subject)) && optionsOf(q).length >= 2 && getAnswerIndex(q) >= 0 && getAnswerIndex(q) < optionsOf(q).length);
+}
+function gameStartArea(title, desc="") {
+  clearInterval(gameTimer); gameTimer = null;
+  gameArea.classList.remove("hidden");
+  gameArea.innerHTML = `<h3>${title}</h3>${desc ? `<p class="muted">${desc}</p>` : ""}<div id="gameContent"></div>`;
+  return $("gameContent");
+}
+function safeText(tag, text, cls) { const el=document.createElement(tag); el.textContent=text; if(cls)el.className=cls; return el; }
+function noGameQuestions() {
+  const pool=gamePool();
+  if(!pool.length){gameStartArea("Chưa có câu hỏi phù hợp", "Hãy chọn lớp hoặc môn khác, hoặc kiểm tra bank.json đã được tải chưa.");return null;}
+  return pool;
+}
+
+// 1. Nhanh tay lẹ mắt: 10 giây mỗi câu, 5 câu.
+$("startFast").addEventListener("click", () => {
+  const pool=noGameQuestions(); if(!pool)return;
+  fastRound={questions:shuffleArray(pool).slice(0,Math.min(5,pool.length)),index:0,score:0,time:10,locked:false};
+  renderFast();
+});
+function renderFast() {
+  clearInterval(gameTimer); gameTimer=null;
+  const st=fastRound; if(!st)return;
+  if(st.index>=st.questions.length){
+    const c=gameStartArea("⚡ Hoàn thành Nhanh tay lẹ mắt");
+    c.append(safeText("p",`Điểm của bạn: ${st.score}/${st.questions.length}.`));
+    const b=safeText("button","Chơi lại");b.addEventListener("click",()=>$ ("startFast").click());c.append(b);return;
+  }
+  st.time=10;st.locked=false;
+  const q=st.questions[st.index], opts=optionsOf(q), c=gameStartArea(`⚡ Nhanh tay lẹ mắt · Câu ${st.index+1}/${st.questions.length}`, `Điểm: ${st.score} · Thời gian còn lại: 10 giây`);
+  const timerLabel=safeText("p","⏱️ 10 giây","game-status");timerLabel.id="fastTimer";c.append(timerLabel,safeText("div",questionValue(q),"game-question"));
+  opts.forEach((opt,i)=>{const b=safeText("button",String.fromCharCode(65+i)+". "+String(opt),"game-answer");b.addEventListener("click",()=>answerFast(i,b));c.append(b);});
+  gameTimer=setInterval(()=>{if(!fastRound||st.locked)return;st.time--;const t=$("fastTimer");if(t)t.textContent="⏱️ Còn "+st.time+" giây";if(st.time<=0)answerFast(-1,null);},1000);
+}
+function answerFast(choice, button) {
+  const st=fastRound;if(!st||st.locked)return;st.locked=true;clearInterval(gameTimer);gameTimer=null;
+  const q=st.questions[st.index], correct=getAnswerIndex(q), c=$("gameContent");
+  c.querySelectorAll("button.game-answer").forEach(b=>b.disabled=true);
+  if(choice===correct)st.score++;
+  const msg=safeText("p",(choice===correct?"Chính xác!":"Chưa đúng hoặc đã hết giờ.")+" Đáp án: "+String.fromCharCode(65+correct)+". "+String(optionsOf(q)[correct]),"game-status");c.append(msg);
+  const next=safeText("button",st.index===st.questions.length-1?"Xem kết quả":"Câu tiếp theo");next.style.marginTop="10px";next.addEventListener("click",()=>{st.index++;renderFast();});c.append(next);
+}
+
+// 2. Ghép hình kiến thức: ghép thẻ câu hỏi với thẻ đáp án.
+$("startMatch").addEventListener("click", () => {
+  const pool=noGameQuestions();if(!pool)return;
+  const chosen=shuffleArray(pool).slice(0,Math.min(4,pool.length));
+  const cards=[];chosen.forEach((q,i)=>{cards.push({id:i,kind:"q",text:questionValue(q),pair:i});cards.push({id:i+100,kind:"a",text:String(optionsOf(q)[getAnswerIndex(q)]),pair:i});});
+  matchState={cards:shuffleArray(cards),first:null,second:null,matched:new Set(),tries:0,busy:false};renderMatch();
+});
+function renderMatch() {
+  const st=matchState;if(!st)return;
+  const c=gameStartArea("🧩 Ghép hình kiến thức", "Lật hai thẻ mỗi lượt: ghép một câu hỏi với đáp án đúng. Cố gắng dùng ít lượt nhất.");
+  c.append(safeText("p",`Đã ghép ${st.matched.size/2}/${st.cards.length/2} cặp · Số lượt: ${st.tries}`,"game-status"));
+  const board=safeText("div","","game-board");board.id="matchBoard";
+  st.cards.forEach(card=>{
+    const visible=st.matched.has(card.id)||(st.first&&st.first.id===card.id)||(st.second&&st.second.id===card.id);
+    const b=safeText("button",visible?((card.kind==="q"?"❓ Câu hỏi: ":"✅ Đáp án: ")+card.text):"🧩 Lật thẻ", "match-card"+(visible?" flipped":"")+(st.matched.has(card.id)?" matched":""));
+    b.disabled=st.matched.has(card.id)||st.busy||visible;
+    b.addEventListener("click",()=>flipMatch(card));board.append(b);
+  });c.append(board);
+  if(st.matched.size===st.cards.length){c.append(safeText("p",`🎉 Bạn đã ghép đủ các cặp trong ${st.tries} lượt!`,"game-status"));const b=safeText("button","Chơi lại");b.addEventListener("click",()=>$ ("startMatch").click());c.append(b);}
+}
+function flipMatch(card) {
+  const st=matchState;if(!st||st.busy||st.matched.has(card.id)||(st.first&&st.first.id===card.id))return;
+  if(!st.first){st.first=card;renderMatch();return;}
+  st.tries++;const first=st.first;
+  if(first.pair===card.pair&&first.kind!==card.kind){st.matched.add(first.id);st.matched.add(card.id);st.first=null;renderMatch();return;}
+  st.second=card;st.busy=true;renderMatch();
+  // Dùng nút tiếp tục thay cho bộ đếm thời gian để tránh thẻ bị lật quá nhanh trên điện thoại.
+  const c=$("gameContent"), b=safeText("button","Đã xem — tiếp tục");b.style.marginTop="10px";b.addEventListener("click",()=>{st.first=null;st.second=null;st.busy=false;renderMatch();});c.append(b);
+}
+
+// 3. Ai là triệu phú: 10 câu, tăng cấp theo tiến độ, trợ giúp 50:50.
+$("startMillion").addEventListener("click", () => {
+  const pool=noGameQuestions();if(!pool)return;
+  millionState={questions:shuffleArray(pool).slice(0,Math.min(10,pool.length)),index:0,earned:0,used5050:false,done:false};renderMillion();
+});
+function renderMillion() {
+  const st=millionState;if(!st)return;
+  if(st.index>=st.questions.length||st.done){
+    const c=gameStartArea("💰 Kết quả Ai là triệu phú");c.append(safeText("p",`Bạn đã vượt qua ${st.earned}/${st.questions.length} câu hỏi.`,"game-status"));
+    const b=safeText("button","Chơi lại");b.addEventListener("click",()=>$ ("startMillion").click());c.append(b);return;
+  }
+  const q=st.questions[st.index],opts=optionsOf(q),correct=getAnswerIndex(q);
+  const c=gameStartArea("💰 Ai là triệu phú",`Câu ${st.index+1}/${st.questions.length} · Mốc hiện tại: ${st.earned} câu`);
+  const ladder=safeText("div","","million-ladder");for(let i=1;i<=st.questions.length;i++){const step=safeText("span",`${i}. ${i*1000} điểm`,"million-step"+(i===st.index+1?" active":""));ladder.append(step);}c.append(ladder,safeText("div",questionValue(q),"game-question"));
+  const optionButtons=[];opts.forEach((opt,i)=>{const b=safeText("button",String.fromCharCode(65+i)+". "+String(opt),"game-answer");b.addEventListener("click",()=>answerMillion(i));optionButtons.push(b);c.append(b);});
+  if(!st.used5050){const help=safeText("button","🛟 Trợ giúp 50:50","secondary");help.style.marginTop="8px";help.addEventListener("click",()=>{st.used5050=true;const wrong=shuffleArray(opts.map((_,i)=>i).filter(i=>i!==correct)).slice(0,2);wrong.forEach(i=>{optionButtons[i].disabled=true;optionButtons[i].textContent=String.fromCharCode(65+i)+". — đã loại";});help.disabled=true;});c.append(help);}
+}
+function answerMillion(choice) {
+  const st=millionState;if(!st||st.done)return;const q=st.questions[st.index],correct=getAnswerIndex(q),c=$("gameContent");
+  c.querySelectorAll("button.game-answer").forEach(b=>b.disabled=true);
+  const ok=choice===correct;if(ok)st.earned++;
+  c.append(safeText("p",(ok?"🎉 Chính xác!":"Rất tiếc, chưa chính xác.")+" Đáp án: "+String.fromCharCode(65+correct)+". "+String(optionsOf(q)[correct]),"game-status"));
+  const next=safeText("button",ok&&st.index<st.questions.length-1?"Câu tiếp theo":"Xem kết quả");next.style.marginTop="10px";next.addEventListener("click",()=>{if(!ok||st.index===st.questions.length-1)st.done=true;else st.index++;renderMillion();});c.append(next);
+}
+
+loadBank();
+})();
+</script>
+</body>
+</html>
