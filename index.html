@@ -25,7 +25,6 @@ main{max-width:980px;margin:20px auto;padding:0 12px 40px}.panel,.quiz-card{back
     <div><label for="topic">Chủ đề</label><select id="topic"><option value="">Tất cả chủ đề</option></select></div>
   </div>
   <div class="actions"><button id="startBtn">Tải câu hỏi</button><button id="shuffleBtn" class="secondary">Trộn câu hỏi</button></div>
-  <div style="margin-top:12px"><label for="bankFile">Nếu không tự tải được, chọn file bank.json tại đây</label><input id="bankFile" type="file" accept=".json,application/json"></div>
   <div id="loadStatus" class="status" role="status">Đang chuẩn bị đọc bank.json…</div>
 </section>
 <section class="quiz-card">
@@ -40,8 +39,9 @@ main{max-width:980px;margin:20px auto;padding:0 12px 40px}.panel,.quiz-card{back
   </div>
   <div id="feedback" aria-live="polite"></div>
 </section>
-<section class="panel"><strong>Hướng dẫn nếu không tải được dữ liệu</strong><p class="muted">Hãy đặt <code>index.html</code> và <code>bank.json</code> trong cùng thư mục rồi mở bằng Preview/Local Server của Acode. Nếu trình duyệt vẫn chặn tải tự động, dùng ô chọn file phía trên để chọn trực tiếp <code>bank.json</code>.</p></section>
+<section class="panel"><strong>Hướng dẫn nếu không tải được dữ liệu</strong><p class="muted">Hãy đặt <code>index.html</code> và <code>bank.json</code> trong cùng thư mục rồi mở bằng Preview/Local Server của Acode. Nếu trình duyệt vẫn chặn tải tự động, dùng ô chọn file ở cuối trang để chọn trực tiếp <code>bank.json</code>.</p></section>
 <footer>Ngân hàng câu hỏi là tài liệu tham khảo; hãy đối chiếu sách giáo khoa và tài liệu của giáo viên.</footer>
+<section class="panel" aria-label="Chọn ngân hàng câu hỏi dự phòng"><label for="bankFile">Nếu không tự tải được, chọn file bank.json tại đây</label><input id="bankFile" type="file" accept=".json,application/json"></section>
 </main>
 <script>
 (() => {
